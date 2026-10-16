@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoctorSleep — Saúde e Bem-Estar do Sono</title>
+    <link rel="stylesheet" href="sleep-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SDK do Supabase necessário para o Logout -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- Fundo de Vídeo em Loop -->
+    <div class="video-bg-container">
+        <video id="bgVideo" autoplay muted loop playsinline>
+            <source src="bg-particles-blue.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Menu Lateral Deslizante -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>Menu DoctorSleep</h3>
+                <button class="close-sidebar" id="closeSidebar"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="sidebar-menu">
+                <button class="menu-item" id="newChatBtn">
+                    <i class="fa-solid fa-plus"></i> Nova Conversa
+                </button>
+                <div class="menu-divider"></div>
+                
+                <!-- Botão Retrátil para Ambientes de Fundo -->
+                <div class="dropdown-container">
+                    <button class="menu-item dropdown-toggle-btn" id="bgDropdownToggle">
+                        <span class="dropdown-left"><i class="fa-solid fa-film"></i> Ambiente de Fundo</span>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow" id="dropdownArrow"></i>
+                    </button>
+                    <!-- Lista que recolhe e expande -->
+                    <div class="bg-options-list" id="bgOptionsList">
+                        <button class="menu-item bg-option active" data-video="bg-particles-blue.mp4">
+                            <i class="fa-solid fa-sparkles"></i> Partículas Azuis (Padrão)
+                        </button>
+                        <button class="menu-item bg-option" data-video="bguniverso.mp4">
+                            <i class="fa-solid fa-meteor"></i> Universo
+                        </button>
+                        <button class="menu-item bg-option" data-video="bg-chuva.mp4">
+                            <i class="fa-solid fa-cloud-rain"></i> Chuva Relaxante
+                        </button>
+                        <button class="menu-item bg-option" data-video="bg-forest-cabin.mp4">
+                            <i class="fa-solid fa-house-chimney"></i> Casa na Floresta
+                        </button>
+                        <button class="menu-item bg-option" data-video="bg-purple-waves.mp4">
+                            <i class="fa-solid fa-water"></i> Ondas Roxo Místico
+                        </button>
+                        <button class="menu-item bg-option" data-video="none">
+                            <i class="fa-solid fa-moon"></i> Noite Sólida (Sem Vídeo)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="menu-divider"></div>
+                <div class="menu-section-title">Histórico</div>
+                <div class="history-list">
+                    <div class="history-item active">Qualidade do sono na rotina</div>
+                    <div class="history-item">Dicas para insónia e ansiedade</div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="menu-item" id="themeToggleBtn">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i> <span id="themeText">Modo Escuro</span>
+                </button>
+                <button class="menu-item logout-btn" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair / Trocar Conta
+                </button>
+            </div>
+        </aside>
+
+        <!-- Cabeçalho Flutuante -->
+        <header class="chat-header">
+            <div class="app-brand">
+                <button class="hamburger-btn" id="hamburgerBtn" title="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="app-logo-wrapper">
+                    <img src="watermarked_img_13711062385359371688.jpg" alt="DoctorSleep Logo" class="app-logo">
+                    <span class="status-dot"></span>
+                </div>
+                <div class="app-info">
+                    <h1>DoctorSleep</h1>
+                    <p>Especialista em Sono</p>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Foto do Usuário" class="user-avatar">
+            </div>
+        </header>
+
+        <!-- Área de Mensagens -->
+        <main class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <img src="watermarked_img_13711062385359371688.jpg" alt="DoctorSleep" class="msg-avatar">
+                <div class="message-content glass-bubble">
+                    <p>Olá! Abra o menu lateral para escolher o ambiente de fundo ideal para o seu descanso.</p>
+                    <span class="msg-time">Agora mesmo</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Rodapé Flutuante -->
+        <footer class="chat-input-area">
+            <form id="chatForm" class="chat-form glass-panel">
+                <button type="button" class="action-btn" title="Anexar arquivo">
+                    <i class="fa-regular fa-folder-open"></i>
+                </button>
+                <input type="text" id="userInput" placeholder="Escreva sua dúvida sobre o sono..." autocomplete="off" required>
+                <button type="submit" id="sendBtn" class="send-btn" title="Enviar">
+                    <i class="fa-solid fa-arrow-up"></i>
+                </button>
+            </form>
+            <p class="footer-disclaimer">Baseado na Associação Brasileira do Sono (ABS).</p>
+        </footer>
+    </div>
+
+    <script src="sleep-script.js"></script>
+</body>
+</html>

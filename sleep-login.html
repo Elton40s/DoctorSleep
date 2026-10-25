@@ -269,7 +269,8 @@
             const apelido = user.email ? user.email.split('@')[0] : 'usuario';
             localStorage.setItem('usuarioLogado', 'true');
             localStorage.setItem('nomeUsuario', apelido);
-            window.location.href = 'sleep.html';
+            // Garante o redirecionamento restrito para o DoctorSleep
+            window.location.replace('sleep.html');
         }
 
         async function entrarOuCadastrar() {
@@ -309,17 +310,21 @@
             if (error) errorContainer.innerText = error.message;
         }
 
-        // Apenas verifica retorno do Google OAuth se houver o parâmetro de código na URL
+        // Verifica a sessão ativa ou o retorno do OAuth do Google de forma robusta
         window.addEventListener('DOMContentLoaded', async () => {
-            const hashParams = new URLSearchParams(window.location.hash.substring(1));
-            const queryParams = new URLSearchParams(window.location.search);
-            
-            if (hashParams.get('access_token') || queryParams.get('code')) {
-                const { data: { session } } = await supabaseClient.auth.getSession();
-                if (session && session.user) {
-                    await irParaChat(session.user);
-                }
+            // Verifica se já existe uma sessão ativa
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session && session.user) {
+                await irParaChat(session.user);
+                return;
             }
+
+            // Ouve alterações de autenticação caso o token venha via hash/query parameters do OAuth
+            supabaseClient.auth.onAuthStateChange(async (event, currentSession) => {
+                if (currentSession && currentSession.user) {
+                    await irParaChat(currentSession.user);
+                }
+            });
         });
     </script>
 </body>

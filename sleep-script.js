@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Configuração do Supabase
-    const SUPABASE_URL = 'https://edrmehdyusznzdltlhxz.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkcm1laGR5dXN6bnpkbHRsaHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMjcxMDUsImV4cCI6MjEwNTgwMzEwNX0.TDclKranm8q1Zcb2ngv6lgflM4yU5fpANLVuyJer6gk';
+    // Configuração do Supabase (Atualizada para o DoctorSleepChat)
+    const SUPABASE_URL = 'https://ptddgqovoyykpqhrownw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB0ZGRncW92b3l5a3BxaHJvd253Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4NzkwNzAsImV4cCI6MjEwODQ1NTA3MH0.Re1qkyhGQ_OwN7k-TYAADKA-cNp48sQXxCAiZiquzsw';
     
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
